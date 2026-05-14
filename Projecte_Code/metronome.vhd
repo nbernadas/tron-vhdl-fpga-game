@@ -1,0 +1,44 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity metronome is
+	port (
+		clk50, nrst: in std_logic;
+		init_met1, init_met2: in std_logic;
+
+		fin_met1, fin_met2: out std_logic
+		);
+end metronome;
+
+architecture main of metronome is
+
+	type states is (st_init, st_met1, st_met2);
+	signal st: states;
+	signal clock1: integer range 0 to 170;
+	signal clock2: integer range 0 to 30;
+	signal fin_met1_aux, fin_met2_aux: std_logic;
+
+begin
+	process (clk50, nrst) begin
+		if nrst = '0' then st <= st_init; clock1 <= 0; clock2 <= 0; fin_met1_aux <= '0'; fin_met2_aux <= '0';
+	
+		elsif clk50'event and clk50 = '1' then 
+			case st is
+				when st_init => if init_met1 = '1' or init_met2 = '1' then st <= st_met1; fin_met1_aux <= '0'; fin_met2_aux <= '0';
+									if init_met1 = '1' then st <= st_met1; clock1 <= 0; 
+									elsif init_met2 = '1' then st <= st_met2; clock2 <= 0; 
+									end if;
+								end if;
+												
+				when st_met1 => if clock1 < 170 then clock1 <= clock1 + 1; elsif clock1 = 170 then fin_met1_aux <= '1'; st <= st_init; end if;
+								
+				when st_met2 => if clock2 < 30 then clock2 <= clock2 + 1; elsif clock2 = 30 then  fin_met2_aux <= '1';st <= st_init; end if;
+								
+			end case;
+		end if;
+	end process;
+			
+	fin_met1 <= fin_met1_aux;
+	fin_met2 <= fin_met2_aux;
+
+end main;

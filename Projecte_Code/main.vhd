@@ -1,0 +1,44 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity main is
+	port(
+		clk50: in std_logic;
+		nrst: in std_logic;
+		ast: in std_logic;
+		end_game: in std_logic;
+		
+		ast_read: out std_logic;
+		new_game: out std_logic;
+		initialize: out std_logic;
+		debug1: out std_logic;
+		debug2: out std_logic
+	);
+end main;
+
+architecture func of main is
+	type states is (st_wait, st_ack, st_init, st_new, st_game, st_gameover);
+	signal st: states;
+
+begin
+	process (clk50, nrst) begin
+		if nrst = '0' then st <= st_wait;
+		elsif clk50'event and clk50 = '1' then
+			case st is
+				when st_wait => if ast = '1' then st <= st_ack; end if;
+				when st_ack => st <= st_init;
+				when st_init => st <= st_new;
+				when st_new => st <= st_game;
+				when st_game => if end_game = '1' then st <= st_gameover; end if;
+				when st_gameover => st <= st_wait;
+			end case;
+		end if;
+	end process;
+	
+	ast_read <= '1' when st = st_ack else '0';
+	initialize <= '1' when st = st_init else '0';
+	new_game <= '1' when st = st_new else '0';
+	
+	debug1 <= '1' when st = st_game else '0';
+	debug2 <= '1' when st = st_wait else '0';
+end func;

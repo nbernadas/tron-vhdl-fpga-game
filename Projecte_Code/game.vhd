@@ -1,0 +1,184 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity game is
+	port(
+		clk: in std_logic;
+		nrst: in std_logic;
+		switch: in std_logic;
+		
+		new_game: in std_logic;
+		
+		tx_ready: in std_logic;
+		
+		read_memory: in std_logic;
+		
+		met1: in std_logic;
+		met2: in std_logic;
+		
+		player_new: in std_logic;
+		opp_new: in std_logic;
+		
+		opp_x: in integer range -1 to 1;
+		opp_y: in integer range -1 to 1;
+		player_x: in integer range -1 to 1;
+		player_y: in integer range -1 to 1;
+		
+		opp_read: out std_logic;
+		player_read: out std_logic;
+		
+		init_met1: out std_logic;
+		init_met2: out std_logic;
+		
+		game_over: out std_logic;
+		
+		memory_mode: out std_logic;
+		--memory_address: out std_logic_vector(10 downto 0);
+		memory_address: out integer range 0 to 2047;
+		write_memory: out std_logic;
+		
+		x: out integer range -1 to 1;
+		y: out integer range -1 to 1;
+		
+		new_move: out std_logic;
+		
+		led_win: out std_logic;
+		led_lose: out std_logic;
+		led_tie: out std_logic;
+		
+		begin_three_segs: out std_logic;
+		
+		met1_read: out std_logic;
+		met2_read: out std_logic
+	);
+end game;
+
+architecture main of game is
+	type states  is (st_wait_new_game, st_send_ast, st_ast_met2, st_stablish, st_met1, st_sending, st_send1, st_send2, st_send3, st_update, 
+						st_lim, st_read_mem, st_compute, st_proc1, st_proc2, st_proc3, st_decisor, st_win, st_lose, st_tie, 
+						st_write1, st_write2, st_write3, st_write4, st_dummy1, st_dummy2, st_dummy3, st_dummy4,
+						st_clean1, st_clean2, st_clean3);
+	signal st: states;
+	
+	signal pos_x: integer range 0 to 39;
+	signal pos_y: integer range 0 to 29;
+	signal opp_pos_x: integer range 0 to 39;
+	signal opp_pos_y: integer range 0 to 29;
+	
+	signal player_out, opp_out: std_logic;
+	
+	signal address: integer range 0 to 2047;
+	signal opp_address: integer range 0 to 2047;
+	
+	signal player_full: std_logic;
+	signal opp_full: std_logic;
+	
+	signal clean_x: integer range 0 to 39;
+	signal clean_y: integer range 0 to 29;
+	
+	signal borrat: std_logic;
+	
+begin
+	process (clk, nrst) begin
+		if nrst = '0' then x <= 0; y <= 0; pos_x <= 0; pos_y <= 0; opp_pos_x <= 0; opp_pos_y <= 0; player_full <= '0'; opp_full <= '0';
+							opp_out <= '0'; player_out <= '0'; led_win <= '0'; led_lose <= '0'; led_tie <= '0'; st <= st_wait_new_game;
+							begin_three_segs <= '0'; clean_x <= 0; clean_y <= 0; borrat <= '0';
+							
+		elsif clk'event  and clk = '1' then
+			case st is
+				when st_wait_new_game => if new_game = '1' then st <= st_clean1; clean_x <= 0; clean_y <= 0; end if;
+				
+				when st_clean1 => memory_address <= clean_y*2*2*2*2*2*2 + clean_x; st <= st_clean2;
+				
+				when st_clean2 => st <= st_clean3;
+				
+				when st_clean3 => if clean_x = 39 then clean_x <= 0;
+									if clean_y = 29 then st <= st_send_ast;
+									else clean_y <= clean_y + 1; st <= st_clean1;
+									end if;
+								  else clean_x <= clean_x + 1; st <= st_clean1;
+								  end if;
+				
+				when st_send_ast => x <= 1; y <= 1; st <= st_ast_met2; begin_three_segs <= '1';
+				
+				when st_ast_met2 => st <= st_stablish; if switch = '0' then pos_x <= 14; pos_y <= 15; opp_pos_x <= 26; opp_pos_y <= 15; 
+													   else pos_x <= 26; pos_y <= 15; opp_pos_x <= 14; opp_pos_y <= 15;
+													   end if;
+													   
+				when st_stablish => if opp_new = '1' and met2 = '1' then st <= st_met1; end if;
+				
+				when st_met1 => st <= st_sending;
+				
+				when st_sending => if met1 = '0' and player_new = '1' then st <= st_send1;
+								   elsif met1 = '1' then st <= st_update;
+								   end if;
+				
+				when st_send1 => x <= player_x; y <= player_y; st <= st_send2;
+				
+				when st_send2 => st <= st_send3;
+				
+				when st_send3 => if met1 = '1' then st <= st_update; end if;
+			
+				when st_update => pos_x <= pos_x + player_x; pos_y <= pos_y + player_y; st <= st_lim;
+							
+				when st_lim => if met2 = '1' then 
+									if pos_x <= 39 and pos_x >= 0 and pos_y <= 29 and pos_y >= 0 then st <= st_read_mem; 
+									else player_out <= '1'; st <= st_compute;
+									end if;
+								end if;
+								
+				when st_read_mem => memory_address <= address; st <= st_dummy1;
+				
+				when st_dummy1 => st <= st_dummy3;
+				
+				when st_dummy3 => st <= st_compute;
+				
+				when st_compute => opp_pos_x <= opp_pos_x + opp_x; opp_pos_y <= opp_pos_y + opp_y; player_full <= read_memory; st <= st_proc1;
+				when st_proc1 => if opp_pos_x <= 39 and opp_pos_x >= 0 and opp_pos_y <= 29 and opp_pos_y >= 0 then st <= st_proc2; 
+								 else opp_out <= '1'; st <= st_proc3;
+								 end if;
+								 
+				when st_proc2 => memory_address <= opp_address; st <= st_dummy2;
+				
+				when st_dummy2 => st <= st_dummy4;
+				
+				when st_dummy4 => st <= st_proc3;
+				
+				when st_proc3 => opp_full <= read_memory; st <= st_decisor;
+				
+				when st_decisor => if (player_full = '0' and opp_full = '1') or (opp_out = '1' and player_out = '0') then st <= st_win;
+								   elsif (player_full = '1' and opp_full = '0') or (opp_out = '0' and player_out = '1') then st <= st_lose;
+								   elsif (pos_x = opp_pos_x and pos_y = opp_pos_y) or (player_out = '1' and opp_out = '1') or 
+														(player_full = '1' and opp_full = '1') then st <= st_tie;
+								   else  st <= st_write1;
+								   end if;
+			
+				when st_win => led_win <= '1'; st <= st_wait_new_game;
+				when st_lose => led_lose <= '1'; st <= st_wait_new_game;
+				when st_tie => led_tie <= '1'; st <= st_wait_new_game;
+				when st_write1 => memory_address <= address; st <= st_write2;
+				when st_write2 => st <= st_write3;
+				when st_write3 => memory_address <= opp_address; st <= st_write4;
+				when st_write4 => st <= st_met1;
+			end case;
+		end if;
+	end process;
+	
+	new_move <= '1' when st = st_ast_met2 or st = st_send2 else '0';
+	
+	player_read <= '1' when st = st_send2 else '0';
+	
+	init_met2 <= '1' when st = st_ast_met2 or st = st_update else '0';
+	init_met1 <= '1' when st = st_met1 else '0';
+	opp_read <= '1' when st = st_met1 else '0';
+	
+	game_over <= '1' when st = st_win or st = st_lose or st = st_tie else '0';
+	
+	memory_mode <= '1' when st = st_write2 or st = st_write4 or st = st_clean2 else '0';
+	
+	write_memory <= '1' when st = st_write1 or st = st_write2 or st = st_write3 or st = st_write4 else '0';
+	
+	address <= pos_y*2*2*2*2*2*2 + pos_x;
+	opp_address <= opp_pos_y*2*2*2*2*2*2 + opp_pos_x;
+end main;

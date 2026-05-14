@@ -1,0 +1,65 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity protocol_tx_projecte is
+	port (
+		clk50, nrst: in std_logic;
+		new_move: in std_logic;
+		x, y: in integer range -1 to 1; 
+
+		tx_data : out std_logic_vector(2 downto 0);
+		ready_to_TX, send : out std_logic
+		);
+end protocol_tx_projecte;
+
+architecture main of protocol_tx_projecte is 
+
+	type states is (st_wait, st_read, st_write, st_send);
+	signal st: states;
+	signal x_aux, y_aux: integer range -1 to 1;
+begin
+
+	process (clk50, nrst) begin
+		if nrst = '0' then
+			st <= st_wait;
+			tx_data <= "000";
+			x_aux <= 0;
+			y_aux <= 0;
+	
+		elsif clk50'EVENT and clk50 = '1' then
+			case st is
+				when st_wait => if new_move = '1' then st <= st_read; end if;
+				when st_read => st <= st_write;
+				when st_write => st <= st_send;
+				when st_send => st <= st_wait;
+			end case;
+		end if;
+	end process;
+	
+	process (clk50, nrst) begin
+		if nrst = '0' then
+			x_aux <= 0;
+			y_aux <= 0;
+		elsif clk50'EVENT and clk50 = '1' then
+			if st = st_wait and new_move = '1' then x_aux <= x; y_aux <= y; end if;
+		end if;
+	end process;
+	
+	process (clk50, nrst) begin
+		if nrst = '0' then
+			tx_data <= "000";
+		elsif clk50'EVENT and clk50 = '1' then
+			if st = st_write then
+				if x_aux = 1 and y_aux = 1 then tx_data <= "100"; 
+				elsif x_aux = 1 and y_aux =0 then tx_data <="000";
+				elsif x_aux = -1 and y_aux =0 then tx_data <="001";
+				elsif x_aux = 0 and y_aux = 1 then tx_data <="010";
+				elsif x_aux = 0 and y_aux = -1 then tx_data <="011";
+				end if;
+			end if;
+		end if;
+	end process;
+	
+	send <= '1' when st = st_send else '0';
+	ready_to_TX <= '1' when st = st_wait else '0';	
+end;

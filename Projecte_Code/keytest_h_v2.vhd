@@ -1,0 +1,59 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity keytest_h_v2 is
+  port ( clk, nrst   : in  std_logic;
+		key         : in std_logic;  -- From the keytest.
+		ast, up, down, turn_right, turn_left: out std_logic;  -- key identifier
+		new_code	: out std_logic;  -- activated when there is a new code in the register.
+		code_read	: in std_logic;  -- used to de-activate new_code.
+		keycode_kt	 : in std_logic_vector(3 downto 0)  -- Keycode from keytest
+		);
+end keytest_h_v2;
+
+architecture main of keytest_h_v2 is
+	
+	signal keycode_int : std_logic_vector(3 downto 0);  -- output of the register.
+	signal new_code_int : std_logic;  -- internal flag.
+	signal nkey : std_logic; -- Signal to comment if keypad has nkey instead of key.
+	signal up_aux, down_aux, turn_right_aux, turn_left_aux: std_logic;
+	
+begin
+
+nkey <= not (key);
+
+REG_KEY : process (clk, nrst) begin
+	if nrst = '0' then
+		keycode_int <= x"0";
+		new_code_int <= '0';
+	elsif clk'EVENT and clk = '1' then
+		if nkey = '0' then
+			keycode_int <= keycode_kt;
+		end if;
+		if nkey = '0' then
+			new_code_int <= '1';
+		elsif code_read = '1' then
+			new_code_int <= '0';
+		end if;
+	end if;
+end process;
+
+
+-- Type of key pressed by the user. This can be changed depending on the keypad.
+ast <= '1' when (keycode_int = x"E" and new_code_int = '1') else '0';
+
+up_aux <= '1' when (keycode_int = x"2" and new_code_int = '1') else '0';
+down_aux <='1' when (keycode_int = x"5" and new_code_int = '1') else '0';
+turn_right_aux <= '1' when (keycode_int = x"6" and new_code_int = '1') else '0';
+turn_left_aux <= '1' when (keycode_int = x"4" and new_code_int = '1') else '0';
+
+-- UPdating the output keycode and new_code
+
+new_code <= up_aux or down_aux or turn_right_aux or turn_left_aux;
+
+up <= up_aux;
+down <= down_aux;
+turn_right <= turn_right_aux;
+turn_left <= turn_left_aux;
+
+end;

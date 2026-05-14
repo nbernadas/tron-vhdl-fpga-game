@@ -1,0 +1,133 @@
+Flow report for Tron2D
+Thu Dec 09 10:46:12 2021
+Quartus II Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2010 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------------------------+
+; Flow Summary                                                                      ;
++------------------------------------+----------------------------------------------+
+; Flow Status                        ; Successful - Thu Dec 09 10:46:12 2021        ;
+; Quartus II Version                 ; 9.1 Build 350 03/24/2010 SP 2 SJ Web Edition ;
+; Revision Name                      ; Tron2D                                       ;
+; Top-level Entity Name              ; FINAL_2_PLAYERS                              ;
+; Family                             ; Cyclone II                                   ;
+; Device                             ; EP2C35F672C6                                 ;
+; Timing Models                      ; Final                                        ;
+; Met timing requirements            ; Yes                                          ;
+; Total logic elements               ; 452 / 33,216 ( 1 % )                         ;
+;     Total combinational functions  ; 416 / 33,216 ( 1 % )                         ;
+;     Dedicated logic registers      ; 265 / 33,216 ( < 1 % )                       ;
+; Total registers                    ; 265                                          ;
+; Total pins                         ; 54 / 475 ( 11 % )                            ;
+; Total virtual pins                 ; 0                                            ;
+; Total memory bits                  ; 4,096 / 483,840 ( < 1 % )                    ;
+; Embedded Multiplier 9-bit elements ; 0 / 70 ( 0 % )                               ;
+; Total PLLs                         ; 0 / 4 ( 0 % )                                ;
++------------------------------------+----------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 12/09/2021 10:46:00 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; Tron2D              ;
++-------------------+---------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                        ;
++------------------------+---------------------------------------------------------------------------------+---------------+-----------------+------------+
+; Assignment Name        ; Value                                                                           ; Default Value ; Entity Name     ; Section Id ;
++------------------------+---------------------------------------------------------------------------------+---------------+-----------------+------------+
+; COMPILER_SIGNATURE_ID  ; 70491201123187.163904316012448                                                  ; --            ; --              ; --         ;
+; IP_TOOL_NAME           ; RAM: 3-PORT                                                                     ; --            ; --              ; --         ;
+; IP_TOOL_NAME           ; RAM: 2-PORT                                                                     ; --            ; --              ; --         ;
+; IP_TOOL_NAME           ; RAM: 2-PORT                                                                     ; --            ; --              ; --         ;
+; IP_TOOL_VERSION        ; 9.1                                                                             ; --            ; --              ; --         ;
+; IP_TOOL_VERSION        ; 9.1                                                                             ; --            ; --              ; --         ;
+; IP_TOOL_VERSION        ; 9.1                                                                             ; --            ; --              ; --         ;
+; MAX_CORE_JUNCTION_TEMP ; 85                                                                              ; --            ; --              ; --         ;
+; MIN_CORE_JUNCTION_TEMP ; 0                                                                               ; --            ; --              ; --         ;
+; MISC_FILE              ; RAM3.bsf                                                                        ; --            ; --              ; --         ;
+; MISC_FILE              ; RAM3.cmp                                                                        ; --            ; --              ; --         ;
+; MISC_FILE              ; C:/Users/noebe/Desktop/Universitat/Màster/Core/ESDC/Project/Projecte/Tron2D.dpf ; --            ; --              ; --         ;
+; MISC_FILE              ; Memory_Game.bsf                                                                 ; --            ; --              ; --         ;
+; MISC_FILE              ; Memory_Game.cmp                                                                 ; --            ; --              ; --         ;
+; MISC_FILE              ; Memo.bsf                                                                        ; --            ; --              ; --         ;
+; MISC_FILE              ; Memo.cmp                                                                        ; --            ; --              ; --         ;
+; PARTITION_COLOR        ; 16764057                                                                        ; --            ; FINAL_2_PLAYERS ; Top        ;
+; PARTITION_NETLIST_TYPE ; SOURCE                                                                          ; --            ; FINAL_2_PLAYERS ; Top        ;
+; TOP_LEVEL_ENTITY       ; FINAL_2_PLAYERS                                                                 ; Tron2D        ; --              ; --         ;
++------------------------+---------------------------------------------------------------------------------+---------------+-----------------+------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                           ;
++-------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name             ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++-------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis    ; 00:00:03     ; 1.0                     ; 264 MB              ; 00:00:03                           ;
+; Fitter                  ; 00:00:04     ; 1.0                     ; 307 MB              ; 00:00:04                           ;
+; Assembler               ; 00:00:02     ; 1.0                     ; 271 MB              ; 00:00:02                           ;
+; Classic Timing Analyzer ; 00:00:00     ; 1.0                     ; 179 MB              ; 00:00:00                           ;
+; Total                   ; 00:00:09     ; --                      ; --                  ; 00:00:09                           ;
++-------------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++------------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                          ;
++-------------------------+------------------+---------------+------------+----------------+
+; Module Name             ; Machine Hostname ; OS Name       ; OS Version ; Processor type ;
++-------------------------+------------------+---------------+------------+----------------+
+; Analysis & Synthesis    ; LAPTOP-3FO01HOL  ; Windows Vista ; 6.2        ; x86_64         ;
+; Fitter                  ; LAPTOP-3FO01HOL  ; Windows Vista ; 6.2        ; x86_64         ;
+; Assembler               ; LAPTOP-3FO01HOL  ; Windows Vista ; 6.2        ; x86_64         ;
+; Classic Timing Analyzer ; LAPTOP-3FO01HOL  ; Windows Vista ; 6.2        ; x86_64         ;
++-------------------------+------------------+---------------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off Tron2D -c Tron2D
+quartus_fit --read_settings_files=off --write_settings_files=off Tron2D -c Tron2D
+quartus_asm --read_settings_files=off --write_settings_files=off Tron2D -c Tron2D
+quartus_tan --read_settings_files=off --write_settings_files=off Tron2D -c Tron2D --timing_analysis_only
+
+
+

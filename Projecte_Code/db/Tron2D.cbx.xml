@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="Tron2D">
+		<CBX_INST_ENTRY INSTANCE_NAME="|FINAL_2_PLAYERS|Memo:inst14|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_gfo1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|FINAL_2_PLAYERS|user_interface:inst6|VGA_Visualisation:inst2|Memory_Game:inst2|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_0fk1.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

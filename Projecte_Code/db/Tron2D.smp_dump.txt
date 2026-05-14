@@ -1,0 +1,108 @@
+
+State Machine - |FINAL_2_PLAYERS|transmision:inst1|protocol_tx_projecte:inst2|st
+Name st.st_send st.st_write st.st_read st.st_wait 
+st.st_wait 0 0 0 0 
+st.st_read 0 0 1 1 
+st.st_write 0 1 0 1 
+st.st_send 1 0 0 1 
+
+State Machine - |FINAL_2_PLAYERS|transmision:inst1|tx_module:inst|state
+Name state.tx_stop state.tx_shift state.tx_start state.tx_idle 
+state.tx_idle 0 0 0 0 
+state.tx_start 0 0 1 1 
+state.tx_shift 0 1 0 1 
+state.tx_stop 1 0 0 1 
+
+State Machine - |FINAL_2_PLAYERS|reception:inst2|rx_module2:inst|state
+Name state.rx_stop state.rx_shift state.rx_start state.rx_idle 
+state.rx_idle 0 0 0 0 
+state.rx_start 0 0 1 1 
+state.rx_shift 0 1 0 1 
+state.rx_stop 1 0 0 1 
+
+State Machine - |FINAL_2_PLAYERS|reception:inst2|protocol_rx_projecte:inst2|st
+Name st.st_wait_ack st.st_send st.st_read st.st_wait 
+st.st_wait 0 0 0 0 
+st.st_read 0 0 1 1 
+st.st_send 0 1 0 1 
+st.st_wait_ack 1 0 0 1 
+
+State Machine - |FINAL_2_PLAYERS|opp_reg:inst3|st
+Name st.ack_game st.ack_key st.move_read st.wait_move st.p2_init st.p1_init st.wait_init 
+st.wait_init 0 0 0 0 0 0 0 
+st.p1_init 0 0 0 0 0 1 1 
+st.p2_init 0 0 0 0 1 0 1 
+st.wait_move 0 0 0 1 0 0 1 
+st.move_read 0 0 1 0 0 0 1 
+st.ack_key 0 1 0 0 0 0 1 
+st.ack_game 1 0 0 0 0 0 1 
+
+State Machine - |FINAL_2_PLAYERS|metronome:inst9|st
+Name st.st_met2 st.st_met1 st.st_init 
+st.st_init 0 0 0 
+st.st_met1 0 1 1 
+st.st_met2 1 0 1 
+
+State Machine - |FINAL_2_PLAYERS|player_reg:inst7|st
+Name st.ack_game st.ack_key st.move_read st.wait_move st.p2_init st.p1_init st.wait_init 
+st.wait_init 0 0 0 0 0 0 0 
+st.p1_init 0 0 0 0 0 1 1 
+st.p2_init 0 0 0 0 1 0 1 
+st.wait_move 0 0 0 1 0 0 1 
+st.move_read 0 0 1 0 0 0 1 
+st.ack_key 0 1 0 0 0 0 1 
+st.ack_game 1 0 0 0 0 0 1 
+
+State Machine - |FINAL_2_PLAYERS|keyboard_module:inst8|keypad:inst|current_state
+Name current_state.check1 current_state.wait1 current_state.kra3 current_state.kra2 current_state.kra1 current_state.kra0 current_state.check0 current_state.wait0 
+current_state.wait0 0 0 0 0 0 0 0 0 
+current_state.check0 0 0 0 0 0 0 1 1 
+current_state.kra0 0 0 0 0 0 1 0 1 
+current_state.kra1 0 0 0 0 1 0 0 1 
+current_state.kra2 0 0 0 1 0 0 0 1 
+current_state.kra3 0 0 1 0 0 0 0 1 
+current_state.wait1 0 1 0 0 0 0 0 1 
+current_state.check1 1 0 0 0 0 0 0 1 
+
+State Machine - |FINAL_2_PLAYERS|main:inst5|st
+Name st.st_gameover st.st_game st.st_new st.st_init st.st_ack st.st_wait 
+st.st_wait 0 0 0 0 0 0 
+st.st_ack 0 0 0 0 1 1 
+st.st_init 0 0 0 1 0 1 
+st.st_new 0 0 1 0 0 1 
+st.st_game 0 1 0 0 0 1 
+st.st_gameover 1 0 0 0 0 1 
+
+State Machine - |FINAL_2_PLAYERS|game:inst|st
+Name st.st_clean3 st.st_clean2 st.st_clean1 st.st_dummy4 st.st_dummy3 st.st_dummy2 st.st_dummy1 st.st_write4 st.st_write3 st.st_write2 st.st_write1 st.st_tie st.st_lose st.st_win st.st_decisor st.st_proc3 st.st_proc2 st.st_proc1 st.st_compute st.st_read_mem st.st_lim st.st_update st.st_send3 st.st_send2 st.st_send1 st.st_sending st.st_met1 st.st_stablish st.st_ast_met2 st.st_send_ast st.st_wait_new_game 
+st.st_wait_new_game 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+st.st_send_ast 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+st.st_ast_met2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+st.st_stablish 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+st.st_met1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+st.st_sending 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+st.st_send1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+st.st_send2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+st.st_send3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+st.st_update 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+st.st_lim 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+st.st_read_mem 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+st.st_compute 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_proc1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_proc2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_proc3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_decisor 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_win 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_lose 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_tie 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_write1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_write2 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_write3 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_write4 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_dummy1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_dummy2 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_dummy3 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_dummy4 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_clean1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_clean2 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+st.st_clean3 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 

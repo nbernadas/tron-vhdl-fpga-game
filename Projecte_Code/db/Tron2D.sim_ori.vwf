@@ -1,0 +1,3424 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+
+/*
+Copyright (C) 1991-2010 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+
+HEADER
+{
+	VERSION = 1;
+	TIME_UNIT = ns;
+	DATA_OFFSET = 0.0;
+	DATA_DURATION = 150000.0;
+	SIMULATION_TIME = 150000.0;
+	GRID_PHASE = 0.0;
+	GRID_PERIOD = 10.0;
+	GRID_DUTY_CYCLE = 50;
+}
+
+USER_TYPE("__main:inst5|st")
+{
+	VALUES = "Undefined", "st.st_wait", "st.st_ack", "st.st_init", "st.st_new", "st.st_game", "st.st_gameover";
+}
+
+USER_TYPE("__game:inst|st")
+{
+	VALUES = "Undefined", "st.st_wait_new_game", "st.st_send_ast", "st.st_ast_met2", "st.st_stablish", "st.st_met1", "st.st_sending", "st.st_update", "st.st_lim", "st.st_read_mem", "st.st_compute", "st.st_proc1", "st.st_proc2", "st.st_proc3", "st.st_decisor", "st.st_write1", "st.st_write2", "st.st_write3", "st.st_write4", "st.st_send1", "st.st_send2", "st.st_send3", "st.st_tie", "st.st_dummy1", "st.st_dummy3", "st.st_dummy2", "st.st_dummy4", "st.st_lose", "st.st_win";
+}
+
+USER_TYPE("__player_reg:inst7|st")
+{
+	VALUES = "Undefined", "st.wait_init", "st.p2_init", "st.wait_move", "st.move_read", "st.ack_key", "st.ack_game", "st.p1_init";
+}
+
+USER_TYPE("__opp_reg:inst3|st")
+{
+	VALUES = "Undefined", "st.wait_init", "st.p1_init", "st.wait_move", "st.move_read", "st.ack_key", "st.ack_game";
+}
+
+SIGNAL("asterisk")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("bridge")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("clk")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("debug_ini1")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("debug_ini2")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("debug_ini3")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("debug_ini4")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("debug_x")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 2;
+	LSB_INDEX = 0;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("debug_x[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "debug_x";
+}
+
+SIGNAL("debug_x[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "debug_x";
+}
+
+SIGNAL("debug_y")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 2;
+	LSB_INDEX = 0;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("debug_y[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "debug_y";
+}
+
+SIGNAL("debug_y[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "debug_y";
+}
+
+SIGNAL("debugging")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("down")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("down_aux")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("LOSE")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("memories")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 11;
+	LSB_INDEX = 0;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("memories[10]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[9]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[8]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[7]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[6]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("memories[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "memories";
+}
+
+SIGNAL("new_code")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("new_moviment")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("nrst")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("pin_name")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 11;
+	LSB_INDEX = 0;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("pin_name[10]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[9]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[8]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[7]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[6]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("pin_name[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "pin_name";
+}
+
+SIGNAL("reb_x")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 2;
+	LSB_INDEX = 0;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("reb_x[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "reb_x";
+}
+
+SIGNAL("reb_x[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "reb_x";
+}
+
+SIGNAL("reb_y")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 2;
+	LSB_INDEX = 0;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("reb_y[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "reb_y";
+}
+
+SIGNAL("reb_y[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "reb_y";
+}
+
+SIGNAL("switch")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("TIE")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("turn_left")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("turn_right")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("up")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("up_aux")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("WIN")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("main:inst5|st")
+{
+	VALUE_TYPE = ENUM;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = MACHINE;
+	PARENT = "";
+	ENUM_NAME = "__main:inst5|st";
+}
+
+SIGNAL("gameover_debug")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("game:inst|opp_pos_x")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 6;
+	LSB_INDEX = 0;
+	DIRECTION = BURIED;
+	PARENT = "";
+}
+
+SIGNAL("game:inst|opp_pos_x[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_x";
+}
+
+SIGNAL("game:inst|opp_pos_x[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_x";
+}
+
+SIGNAL("game:inst|opp_pos_x[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_x";
+}
+
+SIGNAL("game:inst|opp_pos_x[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_x";
+}
+
+SIGNAL("game:inst|opp_pos_x[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_x";
+}
+
+SIGNAL("game:inst|opp_pos_x[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_x";
+}
+
+SIGNAL("game:inst|opp_pos_y")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 5;
+	LSB_INDEX = 0;
+	DIRECTION = BURIED;
+	PARENT = "";
+}
+
+SIGNAL("game:inst|opp_pos_y[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_y";
+}
+
+SIGNAL("game:inst|opp_pos_y[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_y";
+}
+
+SIGNAL("game:inst|opp_pos_y[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_y";
+}
+
+SIGNAL("game:inst|opp_pos_y[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_y";
+}
+
+SIGNAL("game:inst|opp_pos_y[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|opp_pos_y";
+}
+
+SIGNAL("game:inst|pos_x")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 6;
+	LSB_INDEX = 0;
+	DIRECTION = BURIED;
+	PARENT = "";
+}
+
+SIGNAL("game:inst|pos_x[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_x";
+}
+
+SIGNAL("game:inst|pos_x[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_x";
+}
+
+SIGNAL("game:inst|pos_x[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_x";
+}
+
+SIGNAL("game:inst|pos_x[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_x";
+}
+
+SIGNAL("game:inst|pos_x[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_x";
+}
+
+SIGNAL("game:inst|pos_x[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_x";
+}
+
+SIGNAL("game:inst|pos_y")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 5;
+	LSB_INDEX = 0;
+	DIRECTION = BURIED;
+	PARENT = "";
+}
+
+SIGNAL("game:inst|pos_y[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_y";
+}
+
+SIGNAL("game:inst|pos_y[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_y";
+}
+
+SIGNAL("game:inst|pos_y[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_y";
+}
+
+SIGNAL("game:inst|pos_y[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_y";
+}
+
+SIGNAL("game:inst|pos_y[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "game:inst|pos_y";
+}
+
+SIGNAL("new_mov_reg")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("game:inst|st")
+{
+	VALUE_TYPE = ENUM;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = MACHINE;
+	PARENT = "";
+	ENUM_NAME = "__game:inst|st";
+}
+
+SIGNAL("player_ack_debug")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("player_reg:inst7|st")
+{
+	VALUE_TYPE = ENUM;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = MACHINE;
+	PARENT = "";
+	ENUM_NAME = "__player_reg:inst7|st";
+}
+
+SIGNAL("player_reg:inst7|x")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 2;
+	LSB_INDEX = 0;
+	DIRECTION = BURIED;
+	PARENT = "";
+}
+
+SIGNAL("player_reg:inst7|x[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "player_reg:inst7|x";
+}
+
+SIGNAL("player_reg:inst7|x[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "player_reg:inst7|x";
+}
+
+SIGNAL("player_reg:inst7|y")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 2;
+	LSB_INDEX = 0;
+	DIRECTION = BURIED;
+	PARENT = "";
+}
+
+SIGNAL("player_reg:inst7|y[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "player_reg:inst7|y";
+}
+
+SIGNAL("player_reg:inst7|y[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "player_reg:inst7|y";
+}
+
+SIGNAL("game:inst|opp_full")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "";
+}
+
+SIGNAL("game:inst|player_full")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = BURIED;
+	PARENT = "";
+}
+
+SIGNAL("opp_reg:inst3|st")
+{
+	VALUE_TYPE = ENUM;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = MACHINE;
+	PARENT = "";
+	ENUM_NAME = "__opp_reg:inst3|st";
+}
+
+SIGNAL("new_move_debug")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+TRANSITION_LIST("asterisk")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 80.0;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 149880.0;
+	}
+}
+
+TRANSITION_LIST("bridge")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 1 FOR 467.213;
+		LEVEL 0 FOR 600.0;
+		LEVEL 1 FOR 30040.0;
+		LEVEL 0 FOR 400.0;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 200.0;
+		LEVEL 1 FOR 17120.0;
+		LEVEL 0 FOR 800.0;
+		LEVEL 1 FOR 4880.0;
+		LEVEL 0 FOR 800.0;
+		LEVEL 1 FOR 94492.787;
+	}
+}
+
+TRANSITION_LIST("clk")
+{
+	NODE
+	{
+		REPEAT = 1;
+		NODE
+		{
+			REPEAT = 3750;
+			LEVEL 0 FOR 20.0;
+			LEVEL 1 FOR 20.0;
+		}
+	}
+}
+
+TRANSITION_LIST("debug_ini1")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 1587.551;
+		NODE
+		{
+			REPEAT = 10;
+			LEVEL 1 FOR 40.0;
+			LEVEL 0 FOR 8760.0;
+		}
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 60372.449;
+	}
+}
+
+TRANSITION_LIST("debug_ini2")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 267.212;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 8200.653;
+		NODE
+		{
+			REPEAT = 10;
+			LEVEL 1 FOR 40.0;
+			LEVEL 0 FOR 8760.0;
+		}
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 53452.135;
+	}
+}
+
+TRANSITION_LIST("debug_ini3")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 8466.945;
+		NODE
+		{
+			REPEAT = 10;
+			LEVEL 1 FOR 80.0;
+			LEVEL 0 FOR 8720.0;
+		}
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 53453.055;
+	}
+}
+
+TRANSITION_LIST("debug_ini4")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 1546.938;
+		LEVEL 1 FOR 80.0;
+		NODE
+		{
+			REPEAT = 10;
+			LEVEL 0 FOR 8160.0;
+			LEVEL 1 FOR 640.0;
+		}
+		LEVEL 0 FOR 8160.0;
+		LEVEL 1 FOR 52213.062;
+	}
+}
+
+TRANSITION_LIST("debug_x[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("debug_x[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 266.708;
+		LEVEL 1 FOR 30640.0;
+		LEVEL 0 FOR 17920.0;
+		LEVEL 1 FOR 101173.292;
+	}
+}
+
+TRANSITION_LIST("debug_y[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("debug_y[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 267.443;
+		LEVEL 1 FOR 48560.0;
+		LEVEL 0 FOR 101172.557;
+	}
+}
+
+TRANSITION_LIST("debugging")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 10386.959;
+		NODE
+		{
+			REPEAT = 9;
+			LEVEL 1 FOR 40.0;
+			LEVEL 0 FOR 40.0;
+			LEVEL 1 FOR 8280.0;
+			LEVEL 0 FOR 440.0;
+		}
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 40.0;
+		LEVEL 1 FOR 8480.0;
+		LEVEL 0 FOR 51853.041;
+	}
+}
+
+TRANSITION_LIST("down")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 30720.0;
+		LEVEL 1 FOR 2560.0;
+		LEVEL 0 FOR 116720.0;
+	}
+}
+
+TRANSITION_LIST("down_aux")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 32146.416;
+		LEVEL 1 FOR 17920.0;
+		LEVEL 0 FOR 99933.584;
+	}
+}
+
+TRANSITION_LIST("LOSE")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 98266.889;
+		LEVEL 1 FOR 51733.111;
+	}
+}
+
+TRANSITION_LIST("memories[10]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 36267.182;
+		LEVEL 1 FOR 113732.818;
+	}
+}
+
+TRANSITION_LIST("memories[9]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9867.491;
+		LEVEL 1 FOR 26400.0;
+		LEVEL 0 FOR 113732.509;
+	}
+}
+
+TRANSITION_LIST("memories[8]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9868.523;
+		LEVEL 1 FOR 26400.0;
+		LEVEL 0 FOR 113731.477;
+	}
+}
+
+TRANSITION_LIST("memories[7]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9867.464;
+		LEVEL 1 FOR 26400.0;
+		LEVEL 0 FOR 113732.536;
+	}
+}
+
+TRANSITION_LIST("memories[6]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9866.886;
+		LEVEL 1 FOR 26400.0;
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 104933.114;
+	}
+}
+
+TRANSITION_LIST("memories[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("memories[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 10067.186;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 80.0;
+		LEVEL 1 FOR 139652.814;
+	}
+}
+
+TRANSITION_LIST("memories[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9866.637;
+		LEVEL 1 FOR 8800.0;
+		LEVEL 0 FOR 200.0;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 80.0;
+		LEVEL 1 FOR 8320.0;
+		LEVEL 0 FOR 26600.0;
+		NODE
+		{
+			REPEAT = 5;
+			LEVEL 1 FOR 200.0;
+			LEVEL 0 FOR 80.0;
+			LEVEL 1 FOR 8320.0;
+			LEVEL 0 FOR 200.0;
+		}
+		LEVEL 1 FOR 51933.363;
+	}
+}
+
+TRANSITION_LIST("memories[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9866.917;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 200.0;
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 17320.0;
+		NODE
+		{
+			REPEAT = 2;
+			LEVEL 1 FOR 200.0;
+			LEVEL 0 FOR 80.0;
+			LEVEL 1 FOR 8320.0;
+			LEVEL 0 FOR 200.0;
+		}
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 80.0;
+		LEVEL 1 FOR 8320.0;
+		LEVEL 0 FOR 17600.0;
+		NODE
+		{
+			REPEAT = 2;
+			LEVEL 1 FOR 200.0;
+			LEVEL 0 FOR 200.0;
+			LEVEL 1 FOR 80.0;
+			LEVEL 0 FOR 8320.0;
+		}
+		LEVEL 1 FOR 60933.083;
+	}
+}
+
+TRANSITION_LIST("memories[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9867.233;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 200.0;
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 17320.0;
+		NODE
+		{
+			REPEAT = 2;
+			LEVEL 1 FOR 200.0;
+			LEVEL 0 FOR 80.0;
+			LEVEL 1 FOR 8320.0;
+			LEVEL 0 FOR 200.0;
+		}
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 80.0;
+		LEVEL 1 FOR 8520.0;
+		LEVEL 0 FOR 200.0;
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 8320.0;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 200.0;
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 8520.0;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 80.0;
+		LEVEL 1 FOR 8320.0;
+		LEVEL 0 FOR 200.0;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 80.0;
+		LEVEL 1 FOR 8520.0;
+		LEVEL 0 FOR 200.0;
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 8320.0;
+		LEVEL 1 FOR 200.0;
+		LEVEL 0 FOR 51932.767;
+	}
+}
+
+TRANSITION_LIST("memories[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9866.975;
+		LEVEL 1 FOR 8800.0;
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 26400.0;
+		NODE
+		{
+			REPEAT = 2;
+			LEVEL 0 FOR 8800.0;
+			LEVEL 1 FOR 8800.0;
+		}
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 52133.025;
+	}
+}
+
+TRANSITION_LIST("new_code")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 30720.0;
+		LEVEL 1 FOR 250.0;
+		LEVEL 0 FOR 17670.0;
+		LEVEL 1 FOR 230.0;
+		LEVEL 0 FOR 101130.0;
+	}
+}
+
+TRANSITION_LIST("new_moviment")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 1548.331;
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 30640.033;
+		LEVEL 1 FOR 4560.0;
+		LEVEL 0 FOR 13360.0;
+		LEVEL 1 FOR 4240.0;
+		LEVEL 0 FOR 1440.0;
+		LEVEL 1 FOR 7360.0;
+		LEVEL 0 FOR 86771.636;
+	}
+}
+
+TRANSITION_LIST("nrst")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 40.0;
+		LEVEL 1 FOR 149960.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[10]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[9]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[8]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[7]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[6]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("pin_name[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("reb_x[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 1586.904;
+		LEVEL 1 FOR 30640.0;
+		LEVEL 0 FOR 117773.096;
+	}
+}
+
+TRANSITION_LIST("reb_x[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 1586.662;
+		LEVEL 1 FOR 30640.0;
+		LEVEL 0 FOR 17920.0;
+		LEVEL 1 FOR 99853.338;
+	}
+}
+
+TRANSITION_LIST("reb_y[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("reb_y[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 32226.643;
+		LEVEL 1 FOR 17920.0;
+		LEVEL 0 FOR 99853.357;
+	}
+}
+
+TRANSITION_LIST("switch")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("TIE")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("turn_left")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("turn_right")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 48640.0;
+		LEVEL 1 FOR 2560.0;
+		LEVEL 0 FOR 98800.0;
+	}
+}
+
+TRANSITION_LIST("up")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("up_aux")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("WIN")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("main:inst5|st")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL st.st_wait FOR 102.923;
+		LEVEL st.st_ack FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_init FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_new FOR 40.0;
+		LEVEL st.st_game FOR 98040.0;
+		LEVEL st.st_gameover FOR 40.0;
+		LEVEL st.st_wait FOR 51697.077;
+	}
+}
+
+TRANSITION_LIST("gameover_debug")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 98227.517;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 51732.483;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_x[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_x[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.928;
+		LEVEL 1 FOR 149697.072;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_x[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.928;
+		LEVEL 1 FOR 27280.0;
+		LEVEL 0 FOR 26400.0;
+		LEVEL 1 FOR 96017.072;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_x[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 27582.928;
+		LEVEL 1 FOR 26400.0;
+		LEVEL 0 FOR 35200.0;
+		LEVEL 1 FOR 60817.072;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_x[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.928;
+		LEVEL 1 FOR 9680.0;
+		LEVEL 0 FOR 17600.0;
+		LEVEL 1 FOR 26400.0;
+		LEVEL 0 FOR 17600.0;
+		LEVEL 1 FOR 17600.0;
+		LEVEL 0 FOR 60817.072;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_x[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 9982.928;
+		LEVEL 1 FOR 8800.0;
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 26400.0;
+		NODE
+		{
+			REPEAT = 2;
+			LEVEL 0 FOR 8800.0;
+			LEVEL 1 FOR 8800.0;
+		}
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 52017.072;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_y[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 36382.929;
+		LEVEL 1 FOR 113617.071;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_y[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.928;
+		LEVEL 1 FOR 36080.0;
+		LEVEL 0 FOR 113617.072;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_y[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.928;
+		LEVEL 1 FOR 36080.0;
+		LEVEL 0 FOR 113617.072;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_y[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.928;
+		LEVEL 1 FOR 36080.0;
+		LEVEL 0 FOR 113617.072;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_pos_y[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.929;
+		LEVEL 1 FOR 36080.0;
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 104817.071;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_x[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_x[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 17342.903;
+		LEVEL 1 FOR 132657.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_x[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.903;
+		LEVEL 1 FOR 17040.0;
+		LEVEL 0 FOR 132657.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_x[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.903;
+		LEVEL 1 FOR 17040.0;
+		LEVEL 0 FOR 52800.0;
+		LEVEL 1 FOR 79857.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_x[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.903;
+		LEVEL 1 FOR 17040.0;
+		LEVEL 0 FOR 35200.0;
+		LEVEL 1 FOR 17600.0;
+		LEVEL 0 FOR 17600.0;
+		LEVEL 1 FOR 62257.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_x[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 8542.903;
+		LEVEL 1 FOR 8800.0;
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 26400.0;
+		NODE
+		{
+			REPEAT = 2;
+			LEVEL 0 FOR 8800.0;
+			LEVEL 1 FOR 8800.0;
+		}
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 53457.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_y[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 34942.903;
+		LEVEL 1 FOR 115057.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_y[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.903;
+		LEVEL 1 FOR 34640.0;
+		LEVEL 0 FOR 115057.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_y[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.903;
+		LEVEL 1 FOR 34640.0;
+		LEVEL 0 FOR 115057.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_y[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.903;
+		LEVEL 1 FOR 34640.0;
+		LEVEL 0 FOR 115057.097;
+	}
+}
+
+TRANSITION_LIST("game:inst|pos_y[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 302.903;
+		LEVEL 1 FOR 34640.0;
+		LEVEL 0 FOR 8800.0;
+		LEVEL 1 FOR 106257.097;
+	}
+}
+
+TRANSITION_LIST("new_mov_reg")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 30827.446;
+		LEVEL 1 FOR 120.0;
+		LEVEL 0 FOR 17800.0;
+		LEVEL 1 FOR 120.0;
+		LEVEL 0 FOR 120.0;
+		LEVEL 1 FOR 5560.0;
+		LEVEL 0 FOR 95452.554;
+	}
+}
+
+TRANSITION_LIST("game:inst|st")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL st.st_wait_new_game FOR 222.923;
+		LEVEL st.st_send_ast FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_ast_met2 FOR 39.98;
+		LEVEL Undefined FOR 0.009;
+		LEVEL st.st_stablish FOR 1280.0;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 6879.988;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 6879.988;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 6879.988;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 2839.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_send1 FOR 39.987;
+		LEVEL Undefined FOR 0.013;
+		LEVEL st.st_send2 FOR 39.987;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_send3 FOR 3960.0;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 6879.988;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 3159.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_send1 FOR 39.987;
+		LEVEL Undefined FOR 0.013;
+		LEVEL st.st_send2 FOR 39.987;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_send3 FOR 3640.0;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_send1 FOR 39.987;
+		LEVEL Undefined FOR 0.013;
+		LEVEL st.st_send2 FOR 39.987;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_send3 FOR 6760.0;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 6879.988;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 6879.988;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 6879.988;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 40.0;
+		LEVEL st.st_write1 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write2 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write3 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_write4 FOR 39.98;
+		LEVEL Undefined FOR 0.02;
+		LEVEL st.st_met1 FOR 39.988;
+		LEVEL Undefined FOR 0.012;
+		LEVEL st.st_sending FOR 6879.988;
+		LEVEL Undefined FOR 0.011;
+		LEVEL st.st_update FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lim FOR 1280.0;
+		LEVEL st.st_read_mem FOR 40.0;
+		LEVEL st.st_dummy1 FOR 40.0;
+		LEVEL st.st_dummy3 FOR 40.0;
+		LEVEL st.st_compute FOR 40.0;
+		LEVEL st.st_proc1 FOR 40.0;
+		LEVEL st.st_proc2 FOR 40.0;
+		LEVEL st.st_dummy2 FOR 40.0;
+		LEVEL st.st_dummy4 FOR 40.0;
+		LEVEL st.st_proc3 FOR 40.0;
+		LEVEL st.st_decisor FOR 39.999;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.st_lose FOR 39.999;
+		LEVEL st.st_wait_new_game FOR 51737.077;
+	}
+}
+
+TRANSITION_LIST("player_ack_debug")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 30906.944;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 17880.0;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 5640.0;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 95453.056;
+	}
+}
+
+TRANSITION_LIST("player_reg:inst7|st")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL st.wait_init FOR 182.911;
+		LEVEL st.p1_init FOR 40.0;
+		LEVEL st.wait_move FOR 30520.0;
+		LEVEL st.move_read FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.ack_key FOR 40.0;
+		LEVEL st.ack_game FOR 119.999;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.wait_move FOR 17719.999;
+		LEVEL st.move_read FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.ack_key FOR 40.0;
+		LEVEL st.ack_game FOR 119.999;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.wait_move FOR 39.999;
+		LEVEL st.move_read FOR 40.0;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.ack_key FOR 40.0;
+		LEVEL st.ack_game FOR 5559.999;
+		LEVEL Undefined FOR 0.001;
+		LEVEL st.wait_move FOR 43719.999;
+		LEVEL st.wait_init FOR 51737.089;
+	}
+}
+
+TRANSITION_LIST("player_reg:inst7|x[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("player_reg:inst7|x[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 222.912;
+		LEVEL 1 FOR 30560.0;
+		LEVEL 0 FOR 17920.0;
+		LEVEL 1 FOR 101297.088;
+	}
+}
+
+TRANSITION_LIST("player_reg:inst7|y[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("player_reg:inst7|y[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 30782.912;
+		LEVEL 1 FOR 17920.0;
+		LEVEL 0 FOR 101297.088;
+	}
+}
+
+TRANSITION_LIST("game:inst|opp_full")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 150000.0;
+	}
+}
+
+TRANSITION_LIST("game:inst|player_full")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 97982.924;
+		LEVEL 1 FOR 52017.076;
+	}
+}
+
+TRANSITION_LIST("opp_reg:inst3|st")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL st.wait_init FOR 1542.923;
+		LEVEL Undefined FOR 0.005;
+		LEVEL st.p1_init FOR 79.995;
+		LEVEL Undefined FOR 0.005;
+		LEVEL st.wait_move FOR 30559.995;
+		LEVEL st.move_read FOR 40.0;
+		LEVEL st.ack_key FOR 40.0;
+		LEVEL st.ack_game FOR 4560.0;
+		LEVEL st.wait_move FOR 13280.0;
+		LEVEL st.move_read FOR 40.0;
+		LEVEL st.ack_key FOR 40.0;
+		LEVEL st.ack_game FOR 4240.0;
+		LEVEL st.wait_move FOR 1360.0;
+		LEVEL st.move_read FOR 40.0;
+		LEVEL st.ack_key FOR 40.0;
+		LEVEL st.ack_game FOR 7360.0;
+		LEVEL st.wait_move FOR 35040.0;
+		LEVEL st.wait_init FOR 51737.077;
+	}
+}
+
+TRANSITION_LIST("new_move_debug")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 267.529;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 30600.536;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 17880.0;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 5640.0;
+		LEVEL 1 FOR 40.0;
+		LEVEL 0 FOR 95451.935;
+	}
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "clk";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 0;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "nrst";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 1;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "switch";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 2;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "asterisk";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 3;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "turn_left";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 4;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "up";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 5;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "down";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 6;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "turn_right";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 7;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "new_code";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 8;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "player_ack_debug";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 9;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "new_moviment";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 10;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 11;
+	TREE_LEVEL = 0;
+	CHILDREN = 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[10]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 12;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[9]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 13;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[8]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 14;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[7]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 15;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[6]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 16;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 17;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 18;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 19;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 20;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 21;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pin_name[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 22;
+	TREE_LEVEL = 1;
+	PARENT = 11;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "reb_x";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 23;
+	TREE_LEVEL = 0;
+	CHILDREN = 24, 25;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "reb_x[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 24;
+	TREE_LEVEL = 1;
+	PARENT = 23;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "reb_x[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 25;
+	TREE_LEVEL = 1;
+	PARENT = 23;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "reb_y";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 26;
+	TREE_LEVEL = 0;
+	CHILDREN = 27, 28;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "reb_y[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 27;
+	TREE_LEVEL = 1;
+	PARENT = 26;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "reb_y[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 28;
+	TREE_LEVEL = 1;
+	PARENT = 26;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "bridge";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 29;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_ini1";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 30;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_ini2";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 31;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_ini3";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 32;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_ini4";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 33;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_x";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 34;
+	TREE_LEVEL = 0;
+	CHILDREN = 35, 36;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_x[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 35;
+	TREE_LEVEL = 1;
+	PARENT = 34;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_x[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 36;
+	TREE_LEVEL = 1;
+	PARENT = 34;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_y";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 37;
+	TREE_LEVEL = 0;
+	CHILDREN = 38, 39;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_y[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 38;
+	TREE_LEVEL = 1;
+	PARENT = 37;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debug_y[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 39;
+	TREE_LEVEL = 1;
+	PARENT = 37;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "debugging";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 40;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "up_aux";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 41;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "down_aux";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 42;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 43;
+	TREE_LEVEL = 0;
+	CHILDREN = 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[10]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 44;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[9]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 45;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[8]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 46;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[7]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 47;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[6]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 48;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 49;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 50;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 51;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 52;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 53;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "memories[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Hexadecimal;
+	TREE_INDEX = 54;
+	TREE_LEVEL = 1;
+	PARENT = 43;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "WIN";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 55;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "LOSE";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 56;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TIE";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 57;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "gameover_debug";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 58;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_x";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 59;
+	TREE_LEVEL = 0;
+	CHILDREN = 60, 61, 62, 63, 64, 65;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_x[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 60;
+	TREE_LEVEL = 1;
+	PARENT = 59;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_x[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 61;
+	TREE_LEVEL = 1;
+	PARENT = 59;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_x[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 62;
+	TREE_LEVEL = 1;
+	PARENT = 59;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_x[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 63;
+	TREE_LEVEL = 1;
+	PARENT = 59;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_x[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 64;
+	TREE_LEVEL = 1;
+	PARENT = 59;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_x[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 65;
+	TREE_LEVEL = 1;
+	PARENT = 59;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_y";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 66;
+	TREE_LEVEL = 0;
+	CHILDREN = 67, 68, 69, 70, 71;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_y[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 67;
+	TREE_LEVEL = 1;
+	PARENT = 66;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_y[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 68;
+	TREE_LEVEL = 1;
+	PARENT = 66;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_y[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 69;
+	TREE_LEVEL = 1;
+	PARENT = 66;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_y[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 70;
+	TREE_LEVEL = 1;
+	PARENT = 66;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_pos_y[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 71;
+	TREE_LEVEL = 1;
+	PARENT = 66;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_x";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 72;
+	TREE_LEVEL = 0;
+	CHILDREN = 73, 74, 75, 76, 77, 78;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_x[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 73;
+	TREE_LEVEL = 1;
+	PARENT = 72;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_x[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 74;
+	TREE_LEVEL = 1;
+	PARENT = 72;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_x[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 75;
+	TREE_LEVEL = 1;
+	PARENT = 72;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_x[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 76;
+	TREE_LEVEL = 1;
+	PARENT = 72;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_x[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 77;
+	TREE_LEVEL = 1;
+	PARENT = 72;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_x[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 78;
+	TREE_LEVEL = 1;
+	PARENT = 72;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_y";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 79;
+	TREE_LEVEL = 0;
+	CHILDREN = 80, 81, 82, 83, 84;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_y[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 80;
+	TREE_LEVEL = 1;
+	PARENT = 79;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_y[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 81;
+	TREE_LEVEL = 1;
+	PARENT = 79;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_y[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 82;
+	TREE_LEVEL = 1;
+	PARENT = 79;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_y[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 83;
+	TREE_LEVEL = 1;
+	PARENT = 79;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|pos_y[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Unsigned;
+	TREE_INDEX = 84;
+	TREE_LEVEL = 1;
+	PARENT = 79;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "new_mov_reg";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 85;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "main:inst5|st";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 86;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "player_reg:inst7|st";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 87;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "player_reg:inst7|x";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 88;
+	TREE_LEVEL = 0;
+	CHILDREN = 89, 90;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "player_reg:inst7|x[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 89;
+	TREE_LEVEL = 1;
+	PARENT = 88;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "player_reg:inst7|x[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 90;
+	TREE_LEVEL = 1;
+	PARENT = 88;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "player_reg:inst7|y";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 91;
+	TREE_LEVEL = 0;
+	CHILDREN = 92, 93;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "player_reg:inst7|y[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 92;
+	TREE_LEVEL = 1;
+	PARENT = 91;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "player_reg:inst7|y[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Signed;
+	TREE_INDEX = 93;
+	TREE_LEVEL = 1;
+	PARENT = 91;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|opp_full";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 94;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|player_full";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 95;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "opp_reg:inst3|st";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 96;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "game:inst|st";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 97;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "new_move_debug";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 98;
+	TREE_LEVEL = 0;
+}
+
+TIME_BAR
+{
+	TIME = 22950;
+	MASTER = TRUE;
+}
+;
