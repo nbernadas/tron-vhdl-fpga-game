@@ -71,18 +71,6 @@ To simplify rendering and memory usage, the effective game resolution is reduced
 - External keypad
 - RS-232 serial connection
 
-## Repository Structure
-
-```text
-/src            VHDL source files
-/sim            Simulation files
-/docs           Project documentation and diagrams
-```
-
-## Demo
-
-_Add screenshots or videos here._
-
 ## What I Learned
 
 Through this project I gained practical experience with:
